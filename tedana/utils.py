@@ -8,6 +8,7 @@ import nibabel as nib
 from scipy import ndimage
 from nilearn._utils import check_niimg
 from sklearn.utils import check_array
+from nilearn.input_data import NiftiMasker
 
 from tedana.due import due, BibTeX
 
@@ -324,3 +325,26 @@ def threshold_map(img, min_cluster_size, threshold=None, mask=None,
         clust_thresholded = clust_thresholded[mask]
 
     return clust_thresholded
+
+def compute_tsnr_map(img, mask, cmap):
+    """
+    Calculate tSNR image from a nifi or array
+
+    Parameters
+    ----------
+    img : img_like or array_like
+        Image object or 2D array to be clustered
+    mask : (S,) array_like or None, optional
+        Boolean array for masking resultant data array. Default is None.
+    cmap : matplotlib colormap, optional
+        The colormap for specified image
+    """
+    #the input will always be the same bc this is machine-executed
+    #not person-executed, so I can simplify the if-else statements
+    #and just go forward with the nifti + nifti use case
+
+    masker = NiftiMasker(mask_img=mask)
+    masked_data = masker.fit_transform(img)
+    tsnr = np.mean(masked_data, axis=0)/np.std(masked_data, axis=0)
+    tsnr_img = masker.inverse_transform(tsnr)
+    nib.save(tsnr_img, '../figures/tsnr_img.nii.gz')
