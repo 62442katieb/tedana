@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>slice viewer</title>
+    <meta charset="UTF-8" />
+</head>
+<body>
+  <div id="div_viewer">
+    <!-- this is the canvas that will feature the brain slices -->
+    <canvas id="3Dviewer">
+      <!-- load a hidden version of the sprite image that includes all (sagital) brain slices -->
+      <img id="spriteImg" class="hidden" src="$bg" alt="background" />
+      <!-- the colormap -->
+      <img id="colorMap" class="hidden" src="$cmap" alt="colormap">
+      <!-- another sprite image, with an overlay-->
+      <img id="overlayImg" class="hidden" src="$stat_map" alt="overlay">
+    </canvas>
+  </div>
+
+    <!-- local copies, need to fix this-->
+    <!-- maybe a variable filled by the python script-->
+  <script type="text/javascript" src="jquery.min.js"></script>
+  <script type="text/javascript" src="brainsprite.js"></script>
+
+  <script>
+  // On load: build all figures
+  $( window ).on('load',function() {
+    // Create brain slices
+    var brain = brainsprite(
+    $params
+    );
+  });
+  </script>
+</body>
+</html>
