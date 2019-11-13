@@ -1,5 +1,5 @@
 import json
-from os.path import join
+import os.path.join as opj
 import numpy as np
 import nibabel as nib
 from matplotlib.pyplot import imsave
@@ -10,28 +10,30 @@ from nilearn.plotting.js_plotting_utils import colorscale, get_html_template
 from nilearn.plotting.html_stat_map import _get_cut_slices, _data_to_sprite, _save_sprite, _save_cm, _json_view_params, _json_view_to_html, _json_view_size, StatMapView
 from nilearn.image import new_img_like
 
-bg_img = '/path/to/mean_functional_image.nii.gz'
-comp_map_img = '/path/to/component_image.nii.gx'
-cmap = 'viridis'
-threshold = 200
-symmetric_cmap = False
-vmax = 1000
-vmin = 0
-colorbar = False
-black_bg = False
-opacity = 0.9
-draw_cross = False
-annotate = False
-title = "test sprite"
-viewer_name = 'component1'
+#bg_img = '/path/to/mean_functional_image.nii.gz'
+#comp_map_img = '/path/to/component_image.nii.gx'
+#cmap = 'viridis'
+#threshold = 200
+#symmetric_cmap = False
+#vmax = 1000
+#vmin = 0
+#colorbar = False
+#black_bg = False
+#opacity = 0.9
+#draw_cross = False
+#annotate = False
+#title = "test sprite"
+#viewer_name = 'component1'
 
-def create_sprite(bg_img, comp_map_img, cmap, threshold, symmetric_cmap, 
+def create_sprite(out_dir, bg_img, comp_map_img, cmap, threshold, symmetric_cmap, 
                   vmax, vmin=0, colorbar=True, black_bg=False, opacity,
                   draw_cross=False, annotate=False, title, viewer_name, 
                   output_sprite, comp_map_sprite, cbar_img_path)
 
-    output_sprite = 'figures/bg_sprite.png'
-    comp_map_sprite = 'figures/stat_sprite.png'
+    output_sprite = opj(out_dir, 'figures/bg_sprite.png')
+    comp_map_sprite = opj(out_dir, 'figures/stat_sprite.png')
+    bg_img = opj(out_dir, bg_img)
+    comp_map_img = opj(out_dir, comp_map_img)
 
     json_view = dict.fromkeys(['bg', 'stat_map', 'cmap', 'params'])
 
